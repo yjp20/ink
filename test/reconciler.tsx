@@ -5,7 +5,7 @@ import {Box, Text, render} from '../src';
 import createStdout from './helpers/create-stdout';
 
 test('update child', t => {
-	const Test = ({update}) => <Text>{update ? 'B' : 'A'}</Text>;
+	const Test = ({update = false}) => <Text>{update ? 'B' : 'A'}</Text>;
 
 	const stdoutActual = createStdout();
 	const stdoutExpected = createStdout();
@@ -35,7 +35,7 @@ test('update child', t => {
 });
 
 test('update text node', t => {
-	const Test = ({update}) => (
+	const Test = ({update = false}) => (
 		<Box>
 			<Text>Hello </Text>
 			<Text>{update ? 'B' : 'A'}</Text>
@@ -70,7 +70,7 @@ test('update text node', t => {
 });
 
 test('append child', t => {
-	const Test = ({append}) => {
+	const Test = ({append = false}) => {
 		if (append) {
 			return (
 				<Box flexDirection="column">
@@ -126,7 +126,7 @@ test('append child', t => {
 });
 
 test('insert child between other children', t => {
-	const Test = ({insert}) => {
+	const Test = ({insert = false}) => {
 		if (insert) {
 			return (
 				<Box flexDirection="column">
@@ -186,7 +186,7 @@ test('insert child between other children', t => {
 });
 
 test('remove child', t => {
-	const Test = ({remove}) => {
+	const Test = ({remove = false}) => {
 		if (remove) {
 			return (
 				<Box flexDirection="column">
@@ -242,7 +242,7 @@ test('remove child', t => {
 });
 
 test('reorder children', t => {
-	const Test = ({reorder}) => {
+	const Test = ({reorder = false}) => {
 		if (reorder) {
 			return (
 				<Box flexDirection="column">
@@ -302,7 +302,7 @@ test('reorder children', t => {
 test('replace child node with text', t => {
 	const stdout = createStdout();
 
-	const Dynamic = ({replace}) => (
+	const Dynamic = ({replace = false}) => (
 		<Text>{replace ? 'x' : <Text color="green">test</Text>}</Text>
 	);
 

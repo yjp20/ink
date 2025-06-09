@@ -6,15 +6,21 @@ import test from 'ava';
 import {spy} from 'sinon';
 import {render, Box, Text, useFocus, useFocusManager} from '..';
 import createStdout from './helpers/create-stdout';
+import {ReadStream} from 'tty';
 
 const createStdin = () => {
 	const stdin = new EventEmitter();
+
+	// @ts-expect-error
 	stdin.isTTY = true;
+	// @ts-expect-error
 	stdin.setRawMode = spy();
+	// @ts-expect-error
 	stdin.setEncoding = () => {};
+	// @ts-expect-error
 	stdin.resume = () => {};
 
-	return stdin;
+	return stdin as ReadStream;
 };
 
 interface TestProps {

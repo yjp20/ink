@@ -5,7 +5,7 @@ export interface Props {
 	/**
 	 * Function which transforms children output. It accepts children and must return transformed children too.
 	 */
-	readonly transform: (children: string) => string;
+	readonly transform?: (children: string) => string;
 	readonly children?: ReactNode;
 }
 

@@ -121,7 +121,7 @@ test('text with ansi256 background color', t => {
 });
 
 test('remeasure text when text is changed', t => {
-	const Test = ({add}) => (
+	const Test = ({add = false}) => (
 		<Box>
 			<Text>{add ? 'abcx' : 'abc'}</Text>
 		</Box>
@@ -136,7 +136,7 @@ test('remeasure text when text is changed', t => {
 });
 
 test('remeasure text when text nodes are changed', t => {
-	const Test = ({add}) => (
+	const Test = ({add = false}) => (
 		<Box>
 			<Text>
 				abc

@@ -9,6 +9,7 @@ import {Box, Text} from '../src';
 const box = (text: string, options?: Options): string => {
 	return boxen(text, {
 		...options,
+		// @ts-expect-error
 		borderStyle: 'round'
 	});
 };

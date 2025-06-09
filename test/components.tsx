@@ -344,7 +344,7 @@ test('ensure wrap-ansi doesn’t trim leading whitespace', t => {
 test('replace child node with text', t => {
 	const stdout = createStdout();
 
-	const Dynamic = ({replace}) => (
+	const Dynamic = ({replace = false}) => (
 		<Text>{replace ? 'x' : <Text color="green">test</Text>}</Text>
 	);
 
@@ -364,10 +364,15 @@ test('disable raw mode when all input components are unmounted', t => {
 	const stdout = createStdout();
 
 	const stdin = new EventEmitter();
+	// @ts-expect-error
 	stdin.setEncoding = () => {};
+	// @ts-expect-error
 	stdin.setRawMode = spy();
+	// @ts-expect-error
 	stdin.isTTY = true; // Without this, setRawMode will throw
+	// @ts-expect-error
 	stdin.resume = spy();
+	// @ts-expect-error
 	stdin.pause = spy();
 
 	const options = {
@@ -376,7 +381,7 @@ test('disable raw mode when all input components are unmounted', t => {
 		debug: true
 	};
 
-	class Input extends React.Component {
+	class Input extends React.Component<{setRawMode: (b: boolean) => void}> {
 		render() {
 			return <Text>Test</Text>;
 		}
@@ -390,7 +395,7 @@ test('disable raw mode when all input components are unmounted', t => {
 		}
 	}
 
-	const Test = ({renderFirstInput, renderSecondInput}) => {
+	const Test = ({renderFirstInput = false, renderSecondInput = false}) => {
 		const {setRawMode} = useStdin();
 
 		return (
@@ -403,25 +408,37 @@ test('disable raw mode when all input components are unmounted', t => {
 
 	const {rerender} = render(
 		<Test renderFirstInput renderSecondInput />,
+		// @ts-expect-error
 		options
 	);
 
+	// @ts-expect-error
 	t.true(stdin.setRawMode.calledOnce);
+	// @ts-expect-error
 	t.deepEqual(stdin.setRawMode.firstCall.args, [true]);
+	// @ts-expect-error
 	t.true(stdin.resume.calledOnce);
+	// @ts-expect-error
 	t.false(stdin.pause.called);
 
 	rerender(<Test renderFirstInput />);
 
+	// @ts-expect-error
 	t.true(stdin.setRawMode.calledOnce);
+	// @ts-expect-error
 	t.true(stdin.resume.calledOnce);
+	// @ts-expect-error
 	t.false(stdin.pause.called);
 
 	rerender(<Test />);
 
+	// @ts-expect-error
 	t.true(stdin.setRawMode.calledTwice);
+	// @ts-expect-error
 	t.deepEqual(stdin.setRawMode.lastCall.args, [false]);
+	// @ts-expect-error
 	t.true(stdin.resume.calledOnce);
+	// @ts-expect-error
 	t.true(stdin.pause.calledOnce);
 });
 
@@ -429,10 +446,15 @@ test('setRawMode() should throw if raw mode is not supported', t => {
 	const stdout = createStdout();
 
 	const stdin = new EventEmitter();
+	// @ts-expect-error
 	stdin.setEncoding = () => {};
+	// @ts-expect-error
 	stdin.setRawMode = spy();
+	// @ts-expect-error
 	stdin.isTTY = false;
+	// @ts-expect-error
 	stdin.resume = spy();
+	// @ts-expect-error
 	stdin.pause = spy();
 
 	const didCatchInMount = spy();
@@ -444,7 +466,7 @@ test('setRawMode() should throw if raw mode is not supported', t => {
 		debug: true
 	};
 
-	class Input extends React.Component {
+	class Input extends React.Component<{setRawMode: (b: boolean) => void}> {
 		render() {
 			return <Text>Test</Text>;
 		}
@@ -471,13 +493,17 @@ test('setRawMode() should throw if raw mode is not supported', t => {
 		return <Input setRawMode={setRawMode} />;
 	};
 
+	// @ts-expect-error
 	const {unmount} = render(<Test />, options);
 	unmount();
 
 	t.is(didCatchInMount.callCount, 1);
 	t.is(didCatchInUnmount.callCount, 1);
+	// @ts-expect-error
 	t.false(stdin.setRawMode.called);
+	// @ts-expect-error
 	t.false(stdin.resume.called);
+	// @ts-expect-error
 	t.false(stdin.pause.called);
 });
 
@@ -485,10 +511,15 @@ test('render different component based on whether stdin is a TTY or not', t => {
 	const stdout = createStdout();
 
 	const stdin = new EventEmitter();
+	// @ts-expect-error
 	stdin.setEncoding = () => {};
+	// @ts-expect-error
 	stdin.setRawMode = spy();
+	// @ts-expect-error
 	stdin.isTTY = false;
+	// @ts-expect-error
 	stdin.resume = spy();
+	// @ts-expect-error
 	stdin.pause = spy();
 
 	const options = {
@@ -497,7 +528,7 @@ test('render different component based on whether stdin is a TTY or not', t => {
 		debug: true
 	};
 
-	class Input extends React.Component {
+	class Input extends React.Component<{setRawMode: (b: boolean) => void}> {
 		render() {
 			return <Text>Test</Text>;
 		}
@@ -511,7 +542,7 @@ test('render different component based on whether stdin is a TTY or not', t => {
 		}
 	}
 
-	const Test = ({renderFirstInput, renderSecondInput}) => {
+	const Test = ({renderFirstInput = false, renderSecondInput = false}) => {
 		const {isRawModeSupported, setRawMode} = useStdin();
 
 		return (
@@ -528,23 +559,33 @@ test('render different component based on whether stdin is a TTY or not', t => {
 
 	const {rerender} = render(
 		<Test renderFirstInput renderSecondInput />,
+		// @ts-expect-error
 		options
 	);
 
+	// @ts-expect-error
 	t.false(stdin.setRawMode.called);
+	// @ts-expect-error
 	t.false(stdin.resume.called);
+	// @ts-expect-error
 	t.false(stdin.pause.called);
 
 	rerender(<Test renderFirstInput />);
 
+	// @ts-expect-error
 	t.false(stdin.setRawMode.called);
+	// @ts-expect-error
 	t.false(stdin.resume.called);
+	// @ts-expect-error
 	t.false(stdin.pause.called);
 
 	rerender(<Test />);
 
+	// @ts-expect-error
 	t.false(stdin.setRawMode.called);
+	// @ts-expect-error
 	t.false(stdin.resume.called);
+	// @ts-expect-error
 	t.false(stdin.pause.called);
 });
 
@@ -573,7 +614,7 @@ test('render all frames if CI environment variable equals false', async t => {
 test('reset prop when it’s removed from the element', t => {
 	const stdout = createStdout();
 
-	const Dynamic = ({remove}) => (
+	const Dynamic = ({remove = false}) => (
 		<Box
 			flexDirection="column"
 			justifyContent="flex-end"

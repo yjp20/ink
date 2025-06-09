@@ -32,17 +32,17 @@ const term = (fixture: string, args: string[] = []) => {
 		waitForExit: () => exitPromise
 	};
 
-	ps.on('data', data => {
+	ps.onData(data => {
 		result.output += data;
 	});
 
-	ps.on('exit', code => {
-		if (code === 0) {
+	ps.onExit(({exitCode}) => {
+		if (exitCode === 0) {
 			resolve();
 			return;
 		}
 
-		reject(new Error(`Process exited with non-zero exit code: ${code}`));
+		reject(new Error(`Process exited with non-zero exit code: ${exitCode}`));
 	});
 
 	return result;
@@ -125,6 +125,7 @@ test('rerender on resize', async t => {
 
 	t.is(
 		stripAnsi(stdout.write.firstCall.args[0]),
+		// @ts-expect-error
 		boxen('Test'.padEnd(8), {borderStyle: 'round'}) + '\n'
 	);
 
@@ -136,6 +137,7 @@ test('rerender on resize', async t => {
 
 	t.is(
 		stripAnsi(stdout.write.lastCall.args[0]),
+		// @ts-expect-error
 		boxen('Test'.padEnd(6), {borderStyle: 'round'}) + '\n'
 	);
 

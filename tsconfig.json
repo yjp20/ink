@@ -4,6 +4,7 @@
 		"esModuleInterop": true,
 		"outDir": "build",
 		"sourceMap": true,
+		"noImplicitAny": false,
 		"skipLibCheck": true
 	},
 	"include": ["src"],

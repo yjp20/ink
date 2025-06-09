@@ -16,17 +16,17 @@ export const run: Run = (fixture, props) => {
 			name: 'xterm-color',
 			cols: 100,
 			cwd: __dirname,
-			env
+			env: env as any
 		});
 
 		let output = '';
 
-		term.on('data', data => {
+		term.onData(data => {
 			output += data;
 		});
 
-		term.on('exit', code => {
-			if (code === 0) {
+		term.onExit(({exitCode}) => {
+			if (exitCode === 0) {
 				resolve(output);
 				return;
 			}

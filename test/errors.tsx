@@ -9,6 +9,7 @@ import createStdout from './helpers/create-stdout';
 let restore;
 
 test.before(() => {
+	// @ts-expect-error
 	restore = patchConsole();
 });
 
@@ -31,17 +32,17 @@ test('catch and display error', t => {
 			'',
 			'  ERROR  Oh no',
 			'',
-			' test/errors.tsx:23:9',
+			' test/errors.tsx:24:9',
 			'',
-			' 20:   const stdout = createStdout();',
-			' 21:',
-			' 22:   const Test = () => {',
-			" 23:     throw new Error('Oh no');",
-			' 24:   };',
-			' 25:',
-			' 26:   render(<Test />, {stdout});',
+			' 21:   const stdout = createStdout();',
+			' 22:',
+			' 23:   const Test = () => {',
+			" 24:     throw new Error('Oh no');",
+			' 25:   };',
+			' 26:',
+			' 27:   render(<Test />, {stdout});',
 			'',
-			' - Test (test/errors.tsx:23:9)'
+			' - Test (test/errors.tsx:24:9)'
 		]
 	);
 });
